@@ -4,7 +4,9 @@ defmodule JayioWeb.TasksChannel do
   # JayioWeb.Endpoint.broadcast("tasks:lobby", "update_task", %{show: "de bola"})
 
   @impl true
-  def join("tasks:lobby", payload, socket) do
+  def join("tasks:" <> user_id, payload, socket) do
+    IO.puts("Entrou aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiii " <> user_id)
+
     if authorized?(payload) do
       {:ok, socket}
     else

@@ -26,8 +26,8 @@ defmodule Jayio do
   Send the updated task to listeners
   """
   def broadcast({:ok, %Task{id: id, title: title}}) do
-    JayioWeb.Endpoint.broadcast("tasks:lobby", "update_task", %{
-      message: "Task #{id} atualizada com sucesso: #{title}"
+    JayioWeb.Endpoint.broadcast("tasks:id_1", "update_task", %{
+      message: "Task #{id} inserida ou atualizada com sucesso: #{title}"
     })
   end
 end

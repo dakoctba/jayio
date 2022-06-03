@@ -32,8 +32,13 @@ defmodule JayioWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(params, socket, _connect_info) do
+    # IO.inspect(params, label: "[connect::params] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ")
+    # IO.inspect(socket, label: "[connect::socket] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ")
+    # IO.inspect(connect_info, label: "[connect::connect_info] >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ")
+    user_id = params["password"]
+
+    {:ok, assign(socket, :user_id, user_id)}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -43,9 +48,12 @@ defmodule JayioWeb.UserSocket do
   # Would allow you to broadcast a "disconnect" event and terminate
   # all active sockets and channels for a given user:
   #
-  #     Elixir.JayioWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
+  #     JayioWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
+  #     JayioWeb.Endpoint.broadcast("tasks:9999", "update_task", %{show: "de bola"})
   #
   # Returning `nil` makes this socket anonymous.
   @impl true
-  def id(_socket), do: nil
+  def id(socket) do
+    "user_socket:#{socket.assigns.user_id}"
+  end
 end
