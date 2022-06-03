@@ -61,4 +61,6 @@ channel.join()
   .receive("ok", resp => { console.log("Joined successfully at the websocket", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
+channel.on('update_task', console.table);
+
 export default socket
