@@ -11,6 +11,14 @@ defmodule Jayio.Task do
     field :personal, :boolean, default: false
     field :title, :string
 
+    field :bucket, Ecto.Enum,
+      values: [
+        :today,
+        :tomorrow,
+        :backlog
+      ],
+      default: :today
+
     field :status, Ecto.Enum,
       values: [
         :unstarted,
@@ -29,7 +37,7 @@ defmodule Jayio.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:title, :description, :personal, :status])
+    |> cast(attrs, [:bucket, :title, :description, :personal, :status])
     |> validate_required([:title])
   end
 end

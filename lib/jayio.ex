@@ -12,18 +12,22 @@ defmodule Jayio do
     %Task{}
     |> Task.changeset(attrs)
     |> Repo.insert()
+    |> broadcast()
   end
 
   def update_task(task, attrs) do
-    {:ok, t} =
-      task
-      |> Task.changeset(attrs)
-      |> Repo.update()
+    task
+    |> Task.changeset(attrs)
+    |> Repo.update()
+    |> broadcast()
+  end
 
-    IO.puts(t.title)
-
+  @doc """
+  Send the updated task to listeners
+  """
+  def broadcast({:ok, %Task{id: id, title: title}}) do
     JayioWeb.Endpoint.broadcast("tasks:lobby", "update_task", %{
-      message: "Task #{t.id} atualizada com sucesso: #{t.title}"
+      message: "Task #{id} atualizada com sucesso: #{title}"
     })
   end
 end
